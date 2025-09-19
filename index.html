@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JustTie — Shop Stylish Hair Accessories</title>
+  <meta name="description" content="JustTie: premium hair accessories. Fast, simple e‑commerce demo (single file). Contact: 8882223456 | justtie001@gmail.com" />
+  <style>
+    :root{
+      --bg:#f6f7fb; --card:#ffffff; --muted:#6b7280; --accent:#111827; --brand:#b8860b;
+      --glass: rgba(255,255,255,0.6);
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),#fff);color:var(--accent);}
+    header{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;background:var(--card);box-shadow:0 4px 18px rgba(10,10,15,0.04);position:sticky;top:0;z-index:20}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{height:52px;width:52px;border-radius:12px;background:linear-gradient(135deg,#ffe9b7,#f6d365);display:flex;align-items:center;justify-content:center;font-weight:800;color:#3a2b08}
+    .brand h1{margin:0;font-size:18px;letter-spacing:0.4px}
+    .search{flex:1;max-width:640px;margin:0 18px}
+    .search input{width:100%;padding:10px 14px;border-radius:10px;border:1px solid #e6e9ef;background:transparent}
+    nav{display:flex;gap:10px;align-items:center}
+    .icon-btn{background:transparent;border:0;padding:8px 12px;border-radius:10px;cursor:pointer}
+    main{padding:28px}
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:24px;align-items:center}
+
+    .hero-card{background:var(--card);padding:28px;border-radius:16px;box-shadow:0 12px 30px rgba(16,24,40,0.06)}
+    .hero-card h2{margin:0 0 8px;font-size:22px}
+    .hero-card p{margin:0 0 16px;color:var(--muted)}
+    .cta{display:inline-block;padding:10px 16px;border-radius:12px;background:linear-gradient(90deg,var(--brand),#f2c46d);color:#fff;font-weight:600;text-decoration:none}
+
+    .features{display:flex;gap:12px;margin-top:12px}
+    .feature{background:var(--glass);padding:10px;border-radius:10px;font-size:13px}
+
+    /* products grid */
+    .products{margin-top:28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+    .product{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 8px 20px rgba(12,18,30,0.04);display:flex;flex-direction:column}
+    .media{height:200px;border-radius:10px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .media img{max-width:100%;max-height:100%;object-fit:contain}
+    .p-title{font-weight:700;margin:12px 0 6px}
+    .p-desc{color:var(--muted);font-size:13px;margin:0 0 10px}
+    .price-row{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+    .add{padding:10px 12px;border-radius:10px;border:0;background:var(--brand);color:#fff;cursor:pointer}
+
+    /* cart drawer */
+    .cart-btn{position:relative}
+    .cart-count{position:absolute;top:-6px;right:-6px;background:#ef4444;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:12px}
+    .drawer{position:fixed;right:20px;top:88px;width:360px;background:var(--card);box-shadow:0 24px 60px rgba(12,18,30,0.12);border-radius:14px;padding:16px;z-index:50}
+    .drawer h3{margin:0 0 8px}
+    .line{height:1px;background:#eef2f7;margin:8px 0;border-radius:1px}
+    .cart-item{display:flex;gap:10px;align-items:center}
+    .cart-item img{width:64px;height:64px;object-fit:cover;border-radius:8px}
+    .qty{display:flex;gap:6px;align-items:center}
+    .qty button{padding:6px;border-radius:6px;border:1px solid #e6e9ef;background:transparent}
+
+    /* admin: add product modal */
+    .admin{margin-top:18px;display:flex;gap:12px;align-items:center}
+    .admin .btn{padding:10px 12px;border-radius:10px;border:0;background:#10b981;color:#fff}
+    .modal{position:fixed;left:0;top:0;bottom:0;right:0;background:rgba(10,10,15,0.4);display:flex;align-items:center;justify-content:center}
+    .modal-inner{background:var(--card);padding:18px;border-radius:12px;width:720px;max-width:94%}
+
+    /* checkout */
+    .checkout-form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .field{display:flex;flex-direction:column;margin-bottom:8px}
+    .field label{font-size:13px;color:var(--muted);margin-bottom:6px}
+    .field input,.field textarea{padding:8px;border-radius:8px;border:1px solid #e6e9ef}
+
+    footer{margin-top:28px;padding:28px;background:var(--card);border-radius:12px;text-align:center;color:var(--muted)}
+
+    /* floating whatsapp */
+    .wa{position:fixed;right:20px;bottom:20px;background:#25D366;color:#fff;padding:12px 14px;border-radius:999px;display:flex;align-items:center;gap:10px;box-shadow:0 12px 30px rgba(37,211,102,0.16);z-index:60}
+    .wa small{font-weight:700}
+
+    @media(max-width:900px){.hero{grid-template-columns:1fr} .drawer{right:10px;left:10px;width:auto}}
+    @media(max-width:560px){.products{grid-template-columns:repeat(2,1fr)} .media{height:160px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">JT</div>
+      <div>
+        <h1>JustTie</h1>
+        <div style="font-size:12px;color:var(--muted)">Premium hair accessories</div>
+      </div>
+    </div>
+    <div class="search"><input id="search" placeholder="Search for clips, barrettes, scrunchies..." /></div>
+    <nav>
+      <button class="icon-btn" id="adminToggle" title="Admin: add product">➕ Add</button>
+      <button class="icon-btn cart-btn" id="openCart">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-card">
+        <h2>Handcrafted. Chic. JustTie.</h2>
+        <p>Shop unique clips, claw clips, and scrunchies made for every hair type. Fast delivery across India. For support WhatsApp: <strong>8882223456</strong> or <a href="mailto:justtie001@gmail.com">justtie001@gmail.com</a>.</p>
+        <a class="cta" href="#products">Shop Now</a>
+
+        <div class="features">
+          <div class="feature">Free standard shipping over ₹799</div>
+          <div class="feature">Secure checkout — COD available</div>
+          <div class="feature">7‑day returns</div>
+        </div>
+
+        <div class="admin">
+          <div style="font-size:13px;color:var(--muted)">Admin panel (local): add products with images here</div>
+          <button class="btn" id="openAdd">Open Add Product</button>
+        </div>
+      </div>
+
+      <aside class="hero-card" style="text-align:center">
+        <h3>Daily featured set</h3>
+        <div style="margin:12px 0"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='220'><rect width='100%' height='100%' fill='%23fde8d6' rx='14'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='20' fill='%233a2b08' font-family='Arial'>JustTie Featured</text></svg>" alt="featured" style="width:100%;border-radius:10px"/></div>
+        <p style="color:var(--muted)">Limited designs restocked weekly. Add a WhatsApp button to get notified.</p>
+        <a class="cta" href="#products">View collection</a>
+      </aside>
+    </section>
+
+    <section id="products">
+      <h2 style="margin-top:28px">Products</h2>
+      <div class="products" id="productGrid"></div>
+    </section>
+  </main>
+
+  <!-- Cart Drawer (hidden initially) -->
+  <div id="cartDrawer" style="display:none" class="drawer"></div>
+
+  <!-- Add Product Modal -->
+  <div id="addModal" style="display:none" class="modal">
+    <div class="modal-inner">
+      <h3>Add product</h3>
+      <div style="display:flex;gap:12px">
+        <div style="flex:1">
+          <div class="field"><label>Title</label><input id="pTitle" /></div>
+          <div class="field"><label>Price (INR)</label><input id="pPrice" type="number" /></div>
+          <div class="field"><label>Description</label><textarea id="pDesc"></textarea></div>
+          <div class="field"><label>Stock qty</label><input id="pStock" type="number" value="10"/></div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button id="saveProduct" class="btn">Save Product</button>
+            <button id="closeAdd" class="btn" style="background:#ef4444">Cancel</button>
+          </div>
+        </div>
+        <div style="width:240px">
+          <label style="font-size:13px;color:var(--muted)">Upload images (max 4)</label>
+          <input id="pImages" type="file" accept="image/*" multiple />
+          <div id="imgPreview" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px"></div>
+          <small style="color:var(--muted)">Images are stored locally in browser (base64). For production, upload to a CDN/server.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div>© JustTie — Premium hair accessories • Contact: <a href="mailto:justtie001@gmail.com">justtie001@gmail.com</a> • WhatsApp: 8882223456</div>
+  </footer>
+
+  <!-- WhatsApp floating -->
+  <a class="wa" href="https://wa.me/918882223456" target="_blank" rel="noopener noreferrer">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.7 2.3C19.5.9 16.9.1 14 .1 6.9.1.5 6.5.5 13.6c0 2.4.7 4.8 2.1 6.9L.1 23.9l3.5-1c2 1.2 4.3 1.8 6.8 1.8 7.1 0 13.5-6.4 13.5-13.5 0-2.9-.9-5.6-2.8-7.9z" fill="#fff"/></svg>
+    <small>Chat us</small>
+  </a>
+
+  <script>
+    // --- Sample starter products ---
+    const SAMPLE_PRODUCTS = [
+      {id: 'jt1', title:'Pearl Claw Clip', price:399, desc:'Elegant faux‑pearl claw for all hair types.', imgs:[], stock:12},
+      {id: 'jt2', title:'Velvet Scrunchie (Set 3)', price:249, desc:'Soft velvet scrunchies—no creases.', imgs:[], stock:20},
+      {id: 'jt3', title:'Gold Barrette', price:599, desc:'Minimal golden barrette with secure clasp.', imgs:[], stock:8}
+    ];
+
+    // load from localStorage or initialize
+    const DB_KEY = 'justtie_products_v1';
+    let products = JSON.parse(localStorage.getItem(DB_KEY) || 'null') || SAMPLE_PRODUCTS;
+    let cart = JSON.parse(localStorage.getItem('justtie_cart_v1') || '[]');
+
+    // helpers
+    const $ = id => document.getElementById(id);
+
+    function saveProducts(){ localStorage.setItem(DB_KEY, JSON.stringify(products)); }
+    function saveCart(){ localStorage.setItem('justtie_cart_v1', JSON.stringify(cart)); updateCartCount(); }
+
+    function renderProducts(filter=''){
+      const grid = $('productGrid'); grid.innerHTML='';
+      const list = products.filter(p=>p.title.toLowerCase().includes(filter.toLowerCase())||p.desc.toLowerCase().includes(filter.toLowerCase()));
+      for(const p of list){
+        const el = document.createElement('div'); el.className='product';
+        const imgSrc = p.imgs && p.imgs.length? p.imgs[0] : 'data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'><rect width='100%' height='100%' fill='%23f3f4f6' rx='10'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23777' font-size='18' font-family='Arial'>${p.title}</text></svg>`);
+        el.innerHTML = `
+          <div class="media"><img src="${imgSrc}" alt="${p.title}"/></div>
+          <div class="p-title">${p.title}</div>
+          <div class="p-desc">${p.desc}</div>
+          <div class="price-row"><div><strong>₹${p.price}</strong></div><button class="add" data-id="${p.id}">Add</button></div>
+        `;
+        grid.appendChild(el);
+      }
+    }
+
+    function updateCartCount(){ $('cartCount').textContent = cart.reduce((s,i)=>s+i.qty,0); }
+
+    function openCart(){
+      const drawer = $('cartDrawer'); drawer.style.display='block';
+      drawer.innerHTML = `<h3>Your Cart</h3><div class="line"></div>`;
+      if(cart.length===0){ drawer.innerHTML += '<div style="color:var(--muted);padding:12px">Your cart is empty.</div>'; drawer.innerHTML += '<div style="text-align:right;margin-top:8px"><button id="closeDrawer" class="btn" style="background:#ef4444">Close</button></div>'; return; }
+      let total=0;
+      for(const item of cart){
+        const prod = products.find(p=>p.id===item.id);
+        total += prod.price * item.qty;
+        const div = document.createElement('div'); div.className='cart-item';
+        div.innerHTML = `<img src="${prod.imgs && prod.imgs[0] ? prod.imgs[0] : 'data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'300\'><rect width=\'100%\' height=\'100%\' fill=\'%23f3f4f6\' rx=\'10\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23777\' font-size=\'16\' font-family=\'Arial\'>${prod.title}</text></svg>`)}" />
+          <div style="flex:1">
+            <div style="font-weight:700">${prod.title}</div>
+            <div style="color:var(--muted)">₹${prod.price} · <small>Stock: ${prod.stock}</small></div>
+            <div class="qty" style="margin-top:8px"><button class="qminus" data-id="${prod.id}">-</button><div style="padding:6px 10px;border-radius:6px;background:#f6f7fb">${item.qty}</div><button class="qplus" data-id="${prod.id}">+</button><button class="remove" data-id="${prod.id}" style="margin-left:8px;background:transparent;border:0;color:#ef4444">Remove</button></div>
+          </div>`;
+        drawer.appendChild(div);
+      }
+      drawer.innerHTML += `<div class="line"></div><div style="display:flex;justify-content:space-between;align-items:center"><strong>Total</strong><strong>₹${total}</strong></div>`;
+      drawer.innerHTML += `<div style="margin-top:10px;display:flex;gap:8px"><button id="checkoutBtn" class="cta" style="background:linear-gradient(90deg,var(--brand),#f2c46d);border:none">Checkout</button><button id="closeDrawer" class="btn" style="background:#ef4444">Close</button></div>`;
+      // attach events
+      drawer.querySelectorAll('.qplus').forEach(b=>b.addEventListener('click',()=>changeQty(b.dataset.id,1)));
+      drawer.querySelectorAll('.qminus').forEach(b=>b.addEventListener('click',()=>changeQty(b.dataset.id,-1)));
+      drawer.querySelectorAll('.remove').forEach(b=>{b.addEventListener('click',()=>{ cart = cart.filter(i=>i.id!==b.dataset.id); saveCart(); openCart(); });});
+      $('closeDrawer').addEventListener('click',()=>{drawer.style.display='none'});
+      $('checkoutBtn').addEventListener('click',()=>openCheckout(total));
+    }
+
+    function changeQty(id, delta){
+      const it = cart.find(c=>c.id===id);
+      if(!it) return;
+      it.qty += delta;
+      if(it.qty<=0) cart = cart.filter(c=>c.id!==id);
+      saveCart(); openCart();
+    }
+
+    function openCheckout(total){
+      const drawer = $('cartDrawer'); drawer.innerHTML = `<h3>Checkout</h3><div class="line"></div>`;
+      drawer.innerHTML += `<div style="color:var(--muted);font-size:14px">Order total: <strong>₹${total}</strong></div>`;
+      drawer.innerHTML += `
+        <div style="margin-top:8px">
+          <div class="checkout-form">
+            <div class="field"><label>Name</label><input id="cName"/></div>
+            <div class="field"><label>Phone</label><input id="cPhone"/></div>
+            <div class="field" style="grid-column:1/3"><label>Address</label><textarea id="cAddr"></textarea></div>
+            <div class="field"><label>Payment</label><select id="cPayment"><option>Cash on Delivery</option><option>UPI / Bank Transfer</option></select></div>
+            <div class="field"><label>Promo code</label><input id="cPromo"/></div>
+          </div>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:8px"><button id="placeOrder" class="cta">Place Order</button><button id="cancelCheckout" class="btn" style="background:#ef4444">Cancel</button></div>
+      `;
+      $('cancelCheckout').addEventListener('click',()=>drawer.style.display='none');
+      $('placeOrder').addEventListener('click',()=>{
+        const name = $('cName').value.trim(); const phone = $('cPhone').value.trim(); const addr = $('cAddr').value.trim();
+        if(!name||!phone||!addr){ alert('Please fill name, phone and address'); return; }
+        // in production you would send order to server here
+        const order = {id:'ORD'+Date.now(),name,phone,addr,total,items:cart};
+        // store order locally for demo
+        const orders = JSON.parse(localStorage.getItem('justtie_orders_v1')||'[]'); orders.push(order); localStorage.setItem('justtie_orders_v1', JSON.stringify(orders));
+        cart = []; saveCart(); alert('Order placed! Order ID: '+order.id+'\nWe will contact you on WhatsApp: 8882223456');
+        drawer.style.display='none';
+      });
+    }
+
+    // add to cart
+    document.addEventListener('click', e=>{
+      if(e.target.matches('.add')){
+        const id = e.target.dataset.id; const product = products.find(p=>p.id===id); if(!product) return;
+        const existing = cart.find(c=>c.id===id); if(existing){ if(existing.qty < product.stock) existing.qty++; }
+        else cart.push({id,qty:1}); saveCart();
+      }
+      if(e.target.id==='openCart') openCart();
+    });
+
+    // search
+    $('search').addEventListener('input', e=>renderProducts(e.target.value));
+
+    // admin modal logic
+    $('openAdd').addEventListener('click', ()=>{$('addModal').style.display='flex'});
+    $('closeAdd').addEventListener('click', ()=>{$('addModal').style.display='none'});
+    $('adminToggle').addEventListener('click', ()=>{$('addModal').style.display='flex'});
+
+    // image preview and read files
+    $('pImages').addEventListener('change', async (ev)=>{
+      const files = Array.from(ev.target.files).slice(0,4);
+      const preview = $('imgPreview'); preview.innerHTML='';
+      const data = [];
+      for(const f of files){
+        const reader = new FileReader();
+        reader.onload = (e)=>{
+          const src = e.target.result; data.push(src);
+          const img = document.createElement('img'); img.src = src; img.style.width='100%'; img.style.borderRadius='8px'; preview.appendChild(img);
+        };
+        reader.readAsDataURL(f);
+      }
+      // attach to modal for save
+      $('saveProduct').dataset.imgs = null; // will set on click
+      // hack: store loaded images in a temporary global
+      window.__jt_preview_images = data;
+    });
+
+    $('saveProduct').addEventListener('click', ()=>{
+      const title = $('pTitle').value.trim(); const price = Number($('pPrice').value)||0; const desc = $('pDesc').value.trim(); const stock = Number($('pStock').value)||0;
+      const imgs = window.__jt_preview_images && window.__jt_preview_images.length ? window.__jt_preview_images.slice() : [];
+      if(!title||price<=0){ alert('Please add title and price'); return; }
+      const id = 'jt'+(Date.now()); products.unshift({id,title,price,desc,imgs,stock}); saveProducts(); renderProducts(); $('addModal').style.display='none';
+      // clear modal inputs
+      $('pTitle').value='';$('pPrice').value='';$('pDesc').value='';$('pImages').value=null; $('imgPreview').innerHTML=''; window.__jt_preview_images=null;
+    });
+
+    // initialize
+    renderProducts(); updateCartCount();
+
+    // keyboard shortcuts for demo: Ctrl+K focus search
+    document.addEventListener('keydown', e=>{ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){ e.preventDefault(); $('search').focus(); } });
+
+    // basic short link helpers
+    function downloadState(){ const data = {products,cart,orders: JSON.parse(localStorage.getItem('justtie_orders_v1')||'[]')}; const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='justtie_state.json'; a.click(); URL.revokeObjectURL(url); }
+
+    // expose for console/demo
+    window.JustTie = {products,saveProducts,downloadState};
+  </script>
+</body>
+</html>
